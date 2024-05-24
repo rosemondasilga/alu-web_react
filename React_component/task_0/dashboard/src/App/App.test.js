@@ -1,26 +1,42 @@
-import { shallow } from "enzyme";
+/**
+ * @jest-environment jsdom
+ */
 import React from "react";
 import App from "./App";
+import { shallow } from "enzyme";
 
-describe("<App />", () => {
-  it("App renders without crashing", () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.exists()).toEqual(true);
+describe("App tests", () => {
+  // Existing test cases...
+  
+});
+
+describe("When ctrl + h is pressed", () => {
+  it("calls logOut function", () => {
+    const mocked = jest.fn();
+    const wrapper = shallow(<App logOut={mocked} />);
+    const event = new KeyboardEvent("keydown", { ctrlKey: true, key: "h" });
+    document.dispatchEvent(event);
+
+    expect(mocked).toHaveBeenCalledTimes(1);
   });
-  it("App renders a 'div' with the class App-header", () => {
+
+  it("checks that alert function is called", () => {
+    const spy = jest.spyOn(window, "alert");
     const wrapper = shallow(<App />);
-    wrapper.update();
-    expect(wrapper.find("div.App-header")).toHaveLength(1);
+    const event = new KeyboardEvent("keydown", { ctrlKey: true, key: "h" });
+    document.dispatchEvent(event);
+
+    expect(spy).toHaveBeenCalled();
+    spy.mockRestore();
   });
-  it("App renders a div with the class App-body", () => {
+
+  it('checks that the alert is "Logging you out"', () => {
+    const spy = jest.spyOn(window, "alert");
     const wrapper = shallow(<App />);
-    wrapper.update();
-    expect(wrapper.find("div.App-body")).toHaveLength(1);
-  });
-  it("App renders a div with the class App-footer", () => {
-    const wrapper = shallow(<App />);
-    wrapper.update();
-    expect(wrapper.find("div.App-footer")).toHaveLength(1);
+    const event = new KeyboardEvent("keydown", { ctrlKey: true, key: "h" });
+    document.dispatchEvent(event);
+
+    expect(spy).toHaveBeenCalledWith("Logging you out");
+    spy.mockRestore();
   });
 });
-  

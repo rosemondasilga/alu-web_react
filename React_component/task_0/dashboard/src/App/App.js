@@ -11,6 +11,22 @@ import CourseList from '../CourseList/CourseList';
 import { getLatestNotification } from '../utils/utils';
 
 class App extends React.Component {
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  handleKeyDown = (event) => {
+    const { logOut } = this.props;
+    if (event.ctrlKey && event.key === 'h') {
+      alert('Logging you out');
+      logOut();
+    }
+  };
+
   render() {
     const { isLoggedIn } = this.props;
 
@@ -24,27 +40,29 @@ class App extends React.Component {
       { id: 1, type: 'default', value: 'New course available' },
       { id: 2, type: 'urgent', value: 'New course available' },
       { id: 3, type: 'urgent', html: htmlObj },
-    ]
+    ];
 
     return (
       <>
-        <Notifications displayDrawer={ false } listNotifications={ listNotifications } />
+        <Notifications displayDrawer={false} listNotifications={listNotifications} />
         <div className="App">
           <Header />
-          { isLoggedIn ? <CourseList listCourses={ listCourses } /> : <Login /> }
+          {isLoggedIn ? <CourseList listCourses={listCourses} /> : <Login />}
           <Footer />
         </div>
       </>
-    )
+    );
   }
 }
 
 App.propTypes = {
   isLoggedIn: PropTypes.bool,
+  logOut: PropTypes.func,
 };
 
 App.defaultProps = {
   isLoggedIn: false,
+  logOut: () => {},
 };
 
 export default hot(module)(App);
