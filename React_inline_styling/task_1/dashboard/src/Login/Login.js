@@ -1,25 +1,41 @@
-import './Login.css';
 import React from 'react';
+import { StyleSheet, css } from 'aphrodite';
 
-function Login() {
-    return (
-        <div className="App-body">
-            <p>Login to access the full dashboard</p>
-            <div className="form">
-                <label htmlFor="email">
-                    <span>Email:</span>
-                    <input type="email" name="email" id="email" />
-                </label>
+const Login = () => {
+  return (
+    <div className={css(styles.loginContainer)}>
+      <form className={css(styles.formContainer)}>
+        <label htmlFor="username">Username:</label>
+        <input type="text" id="username" name="username" className={css(styles.inputField)} />
 
-                <label htmlFor="password">
-                    <span>Password:</span>
-                    <input type="password" name="password" id="pwd" />
-                </label>
+        <label htmlFor="password">Password:</label>
+        <input type="password" id="password" name="password" className={css(styles.inputField)} />
 
-                <button onClick={ () => { } }>OK</button>
-            </div>
-        </div>
-    );
-}
+        <button type="submit" className={css(styles.submitButton)}>Login</button>
+      </form>
+    </div>
+  );
+};
+
+const styles = StyleSheet.create({
+  loginContainer: {
+    margin: '20px',
+  },
+  formContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  inputField: {
+    marginBottom: '10px',
+    padding: '5px',
+  },
+  submitButton: {
+    backgroundColor: 'blue',
+    color: 'white',
+    padding: '10px',
+    border: 'none',
+    cursor: 'pointer',
+  },
+});
 
 export default Login;
